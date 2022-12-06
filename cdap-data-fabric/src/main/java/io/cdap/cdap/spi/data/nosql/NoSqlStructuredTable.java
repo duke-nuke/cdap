@@ -150,6 +150,9 @@ public final class NoSqlStructuredTable implements StructuredTable {
       return scannerIterator;
     }
 
+    LOG.warn("WARNING: potential performance impact while scanning table {} with range {} " +
+               "which does in-memory filtering with filterRange {}",
+             schema.getTableId(), keyRange, filterRange);
     return new FilterByRangeIterator(Collections.singleton(scannerIterator).iterator(),
                                      Collections.singleton(filterRange));
   }
