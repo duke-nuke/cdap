@@ -689,7 +689,7 @@ public class ProgramLifecycleService {
 
       LOG.info("Attempt to run {} program {} as user {} with arguments {}", programId.getType(),
                programId.getProgram(), decodeUserId(userId), userArgs);
-
+      LOG.info("ashau - sending message to provision run", new Exception());
       provisionerNotifier.provisioning(programRunId, programOptions, programDescriptor, userId);
       done = true;
     } finally {
@@ -825,6 +825,7 @@ public class ProgramLifecycleService {
       if (runtimeInfo != null) {
         return runtimeInfo.getController();
       }
+      LOG.info("ashau - starting run", new Exception());
       return runtimeService.run(programDescriptor, programOptions, runId).getController();
     }
   }
