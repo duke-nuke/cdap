@@ -127,10 +127,10 @@ public class ProgramLifecycleService {
     .addTypeAdapters(new GsonBuilder())
     .registerTypeAdapterFactory(new CaseInsensitiveEnumTypeAdapterFactory())
     .create();
-  private static final EnumSet<ProgramRunStatus> ActiveStates = EnumSet.of(ProgramRunStatus.PENDING,
-                                                                           ProgramRunStatus.STARTING,
-                                                                           ProgramRunStatus.RUNNING,
-                                                                           ProgramRunStatus.SUSPENDED);
+  private static final EnumSet<ProgramRunStatus> ACTIVE_STATES = EnumSet.of(ProgramRunStatus.PENDING,
+                                                                            ProgramRunStatus.STARTING,
+                                                                            ProgramRunStatus.RUNNING,
+                                                                            ProgramRunStatus.SUSPENDED);
 
   private final Store store;
   private final ProfileService profileService;
@@ -929,7 +929,7 @@ public class ProgramLifecycleService {
 
     RunRecordDetail runRecord = store.getRun(programRef, runId);
 
-    if (runRecord == null || !ActiveStates.contains(runRecord.getStatus())) {
+    if (runRecord == null || !ACTIVE_STATES.contains(runRecord.getStatus())) {
       // Error out if no run information from run record
       ensureLatestProgramExists(programRef);
       throw new BadRequestException(String.format("Program '%s' is not running.", programRef));
@@ -1358,7 +1358,7 @@ public class ProgramLifecycleService {
       return store.getActiveRuns(programId);
     }
     RunRecordDetail runRecord = store.getRun(programId.run(runId));
-    return runRecord == null || !ActiveStates.contains(runRecord.getStatus())
+    return runRecord == null || !ACTIVE_STATES.contains(runRecord.getStatus())
       ? Collections.emptyMap()
       : Collections.singletonMap(programId.run(runId), runRecord);
   }

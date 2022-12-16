@@ -150,7 +150,8 @@ public final class NoSqlStructuredTable implements StructuredTable {
       return scannerIterator;
     }
 
-    LOG.warn("WARNING: potential performance impact while scanning table {} with range {} " +
+    // TODO: remove this warning after CDAP-20177
+    LOG.warn("Potential performance impact while scanning table {} with range {} " +
                "which does in-memory filtering with filterRange {}",
              schema.getTableId(), keyRange, filterRange);
     return new FilterByRangeIterator(Collections.singleton(scannerIterator).iterator(),
